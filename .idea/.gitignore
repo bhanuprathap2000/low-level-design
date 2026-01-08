@@ -1,0 +1,33 @@
+# ===== Gradle =====
+.gradle/
+build/
+
+# ===== Java =====
+*.class
+*.log
+
+# ===== IntelliJ IDEA =====
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ===== Eclipse =====
+.project
+.classpath
+.settings/
+
+# ===== VS Code =====
+.vscode/
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log
+
+# ===== Gradle wrapper (keep these) =====
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties

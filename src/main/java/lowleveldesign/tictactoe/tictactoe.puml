@@ -1,0 +1,168 @@
+@startuml tictactoe
+
+
+class TicTacToeSystem {
+
+    - instance : TicTacToeSystem
+    - ScoreBoard: ScoreBoard
+    - game: Game
+
+    + getInstance(): TicTacToeSystem
+    + getScoreBoard(): ScoreBoard
+    + createGame(player1:Player,player2:Player): void
+    +makeMove(player:Player,row:int,col:int): void
+    + printBoard(): void
+}
+
+
+enum GameStatus {
+
+    + IN_PROGRESS
+    + DRAW
+    + WINNER_X
+    + WINNER_O
+}
+
+enum Symbol {
+
+    + X
+    + O
+    + EMPTY
+
+    + getChar():char
+}
+
+Class Player {
+
+    - name: String
+    - symbol: Symbol
+}
+
+class Cell {
+
+    - symbol: Symbol
+}
+
+class Board {
+
+    - size: int
+    - board: Cell[][]
+    - movesCount: int
+
+    - initializeBoard(): void
+    + placeSymbol(row:int, col:int, symbol:Symbol) : boolean
+    + getCell(row:int, col:int): Cell
+    + isFull(): boolean
+    + printBoard(): void
+
+}
+
+class Game {
+
+    - board: Board
+    - gameStatus: GameStatus
+    - player1: Player
+    - player2: Player
+    - currentPlayer: Player
+    - winner: Player
+    - gameState: GameState
+    - winningStrategies: List<WinningStrategies>
+
+    + switchPlayers(): void
+    + makeMove(player:Player,row:int,col:int): void
+    + checkWinner(player: Player): boolean
+}
+
+
+
+interface WinningStrategy {
+
+    + checkWinner(board:Board , player: Player) : boolean
+}
+
+class RowWinningStrategy implements WinningStrategy{
+        + checkWinner(board:Board , player: Player) : boolean
+
+}
+
+class ColumnWinningStrategy implements WinningStrategy{
+        + checkWinner(board:Board , player: Player) : boolean
+
+}
+
+class DiagonalWinningStrategy implements WinningStrategy{
+        + checkWinner(board:Board , player: Player) : boolean
+
+}
+
+
+interface GameState {
+
+    + handleMove(game: Game,player: Player,row:int,col:int): void
+}
+
+
+class InProgressState implements GameState {
+        + handleMove(game: Game,player: Player,row:int,col:int): void
+
+}
+
+class DrawState implements GameState {
+        + handleMove(game: Game,player: Player,row:int,col:int): void
+
+}
+class WinnerState implements GameState {
+        + handleMove(game: Game,player: Player,row:int,col:int): void
+
+}
+
+interface GameObserver {
+
+    + update(game: Game): void
+}
+
+class GameSubject implements GameObserver {
+
+    - observers: List<GameObservers>
+    + addObserver(GameObserver:GameObserver): void
+     + removeObserver(GameObserver:GameObserver): void
+     + notifyObservers(): void
+
+}
+
+
+class ScoreBoard implements GameObserver {
+
+    - scores: Map<String,Integer>
+    + printScores(): void
+    + update(game:Game): void
+}
+
+
+
+
+Board "1" *-- "many" Cell
+
+Cell *-- Symbol
+
+Player *--Symbol
+
+
+Game *-- Board
+
+Game *-- GameStatus
+
+Game *-- GameState
+
+Game *-- Player
+
+Game *-- WinningStrategy
+
+TicTacToeSystem *-- ScoreBoard
+
+TicTacToeSystem *-- Game
+
+
+
+
+@enduml
