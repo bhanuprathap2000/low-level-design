@@ -1,0 +1,46 @@
+@startuml
+
+class Node{
+
+key:K
+
+value:V
+
+prevNode: Node<K,V>
+
+nextNode: Node<K,V>
+
+}
+
+class DoublyLinkedList {
+
+head: Node<K,V>
+tail: Node<K,V>
+
+addFirst(node:Node<K,V>): void
+removeLast(): node: Node<K,V>
+moveToFront(node:Node<K,V>): void
+remove(node: Node<K,V>): void
+
+}
+
+
+class LRUCache {
+
+capacity:int
+map: Map<K,Node<K,V>>
+dll: DoublyLinkedList<K,V>
+
+get(key:K):V
+put((key:K,value:V): void
+remove(key:K): void
+
+}
+
+DoublyLinkedList *-->Node
+
+LRUCache *--> DoublyLinkedList
+
+LRUCache -- Node
+
+@enduml
