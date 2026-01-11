@@ -1,0 +1,68 @@
+@startuml
+
+enum GameStatus <<enumeration>>{
+
+NOT_STARTED,
+RUNNING,
+FINISHED
+}
+
+class Player{
+
+name: String,
+position:int
+}
+
+class BoardEntity{
+
+start:int
+end:int
+}
+
+class Snake extends BoardEntity
+
+class Ladder extends BoardEntity
+
+class Dice {
+minValue:int,
+maxValue:int
+
+roll():int
+
+}
+
+class Board{
+
+int:size
+
+snakeAndLadders:Map<Integer,Integer>
+
+
+getFinalPosition():
+}
+
+class Game {
+
+dice:Dice,
+board:Board,
+status:GameStatus,
+players: Queue<Player>
+winner:Player
+
+takeTurn(Player):void
+play():void
+}
+
+Game *--> Dice
+
+Game *-->Board
+
+Game o--> Player
+
+Game *--> GameStatus
+
+Board o-->BoardEntity
+
+
+
+@enduml
