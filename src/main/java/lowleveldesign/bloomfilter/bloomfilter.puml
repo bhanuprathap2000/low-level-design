@@ -1,0 +1,61 @@
+@startuml
+
+
+enum HashType <<enumeration>> {
+
+FNV1A
+DJB2
+}
+
+
+
+interface HashStrategy {
+
+hash(input:String):long
+
+}
+
+class FNV1AStrategy implements HashStrategy {
+hash(input:String):long
+}
+
+class DJB2Strategy implements HashStrategy {
+hash(input:String):long
+}
+
+
+class HashStrategyFactory {
+
+create(hashType:HashType):HashStrategy
+}
+
+class BloomFilter {
+bitSetSize:int
+bitSet: Bitset
+numOfHashFunctions: int
+hashStrategies: List<HashStrategy>
+
+mightContain(input:String):boolean
+add((input:String): void
+
+}
+
+class Builder{
+
+bitSetSize:int
+numOfHashFunctions: int
+hashStrategies: List<HashStrategy>
+
+withBitSetSize(bitSetSize:int):Builder
+withNumberOfHashFunctions(numOfHashFunctions:int)
+withHashStrategies(hashStrategies:List<HashStrategy>)
+
+}
+
+
+BloomFilter *--> HashStrategy
+
+BloomFilter --> Builder
+
+
+@enduml

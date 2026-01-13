@@ -1,0 +1,122 @@
+@startuml
+
+enum VehicleSize <<enumeration>>{
+SMALL,
+MEDIUM,
+LARGE
+}
+
+abstract class Vehicle{
+
+-licenseNumber: String
+-vehicleSize: VehicleSize
+
++getLicenseNumber(): String
++getVehicleSize(): VehicleSize
+}
+
+
+class Car extends Vehicle {
+
+}
+
+class Truck extends Vehicle {
+
+}
+
+class Bike extends Vehicle {
+
+}
+class ParkingSpot{
+-spotId: String,
+-spotSize: VehicleSize,
+-isOccupied: boolean
+-parkedVehicle: Vehicle
+
++canFitVehicle(vehicle:Vehicle):boolean
++parkVehicle((vehicle:Vehicle):void
++unparkVehicle(): void
++isAvailable(): boolean
+}
+
+class ParkingFloor{
+
+-floorNumber:int,
+-spots: Map<String,ParkingSpot>
+
++addSpot(parkingSpot:ParkingSpot): void
++displayAvailability(): void
++findAvailableSpot(vehicle:Vehicle): Optional<ParkingSpot>
+
+}
+
+class ParkingTicket{
+
+- ticketId: String,
+- spot: ParkingSpot
+- vehicle:Vehicle
+- entryTimestamp: LocalDateTime
+- exitTimestamp: LocalDateTime
+}
+
+class ParkingLotSystem{
+
+- instance: ParkingLotSystem
+- floors: List<ParkingFloor>
+- activeTickets: Map<String,ParkingTicket>
+- parkingFeeStrategy: ParkingFeeStrategy
+- parkingStrategy:ParkingStrategy
+
++ getInstance(): ParkingLotSystem
++ addFloor(parkingFloor:ParkingFloor):void
++ parkVehicle(vehicle:Vehicle): Optional<ParkingTicket>
++ unparkVehicle(vehicle:Vehicle): Optional<Double>
++ setFeeStrategy(feestrategy:FeeStrategy): void
++ setParkingStrategy(parkingStrategy:ParkingStrategy): void
+
+}
+
+ParkingLotSystem *--> ParkingFloor
+ParkingFloor *--> ParkingSpot
+ParkingLotSystem *--> ParkingTicket
+ParkingLotSystem *--> FeeStrategy
+
+interface FeeStrategy {
+
+calculateFee(parkingTicket:ParkingTicket): double
+}
+
+class VehicleBasedFeeStrategy implements FeeStrategy {
+
+HOURLY_RATES: Map<VehicleSize,Double>
+
+calculateFee(parkingTicket:ParkingTicket): double
+}
+
+class FlatRateFeeStrategy {
+
+RATE_PER_HOUR: double
+'
+calculateFee(parkingTicket:ParkingTicket): double
+}
+
+interface ParkingStrategy {
+
+findSpot(parkingFloors:List<ParkingFloor>,vehicle:Vehicle): Optional<ParkingSpot>
+
+
+}
+
+class NearestFirstStrategy extends ParkingStrategy {
+
+}
+
+class BestFitStrategy extends ParkingStrategy {
+}
+
+class FarthestFirstStrategy extends ParkingStrategy {
+
+}
+
+
+@enduml
