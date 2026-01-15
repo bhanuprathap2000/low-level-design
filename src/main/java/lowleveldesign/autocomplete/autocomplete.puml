@@ -1,0 +1,68 @@
+@startuml
+
+class TrieNode {
+
+- children: Map<Character,TrieNode>
+- frequency: int
+- isEndOfWord: boolean
+
++ incrementFrequency():void
++ getChildren(): Map<Character,TrieNode>
++ getFrequency(): int
++ isEndOfWord(): boolean
++ setEndOfWord(): void
+
+}
+
+class Suggestion {
+- word: String
+- weight : int
+}
+
+
+
+class Trie {
+
+- root: TrieNode
+
++ insert(word:String): void
++ searchPrefix(word:String): TrieNode
++ collectSuggestions(trieNode:TrieNode, word:String): List<Suggestion>
+
+}
+
+class AutoCompleteSystem {
+
+- trie:Trie
+- maxSuggestions: int
+- rankingStrategy: RankingStrategy
+
++ addWord(word:String): void
++ getSuggestions(word: String): List<Suggestion>
++ addWords(words:List<String>): void
+}
+
+interface RankingStrategy {
+
++ rank(suggestions:List<Suggestion>): List<Suggestion>
+}
+
+class AlphabeticalRanking implements RankingStrategy {
++ rank(suggestions:List<Suggestion>): List<Suggestion>
+
+}
+
+class FrequencyRanking implements RankingStrategy {
++ rank(suggestions:List<Suggestion>): List<Suggestion>
+
+}
+
+Trie *--> TrieNode
+Trie *--> RankingStrategy
+
+Trie --> Suggestion
+
+AutoCompleteSystem  *--> Trie
+
+
+@enduml
