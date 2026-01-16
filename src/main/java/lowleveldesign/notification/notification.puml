@@ -1,0 +1,100 @@
+@startuml
+
+class Recipient {
+- userId: String
+- phoneNumber: Optional<String>
+- emailId: Optional<String>
+- pushToken: Optional<String>
+}
+
+enum NotificationType <<enumeration>> {
+SMS,
+EMAIL,
+PUSH
+}
+
+class Notification  {
+- id: String
+- recipient : Recipient
+- message: String
+- subject: String
+- type: NotificationType
+
+}
+
+class Builder {
+
+- recipient : Recipient
+- message: String
+- subject: String
+- type: NotificationType
+
++ build(): Notification
++ withMessage(message:String): Builder
++ withSubject(subject:String): Builder
++ withType(type:NotificationType): Builder
+
+}
+
+interface NotificationGateway {
+
++ sendNotification(notification:Notification): void
+}
+
+
+class SmsGateway implements NotificationGateway {
++ sendNotification(notification:Notification): void
+
+
+}
+
+class EmailGateway implements NotificationGateway {
+
++ sendNotification(notification:Notification): void
+}
+
+class PushGateway implements NotificationGateway {
++ sendNotification(notification:Notification): void
+
+}
+
+class RetryAbleGatewayDecorator implements NotificationGateway {
+
+ - wrappedGateway: NotificationGateway
+ - maxRetries: int
+ - retryDelayInMilliSeconds: int
+
+ + sendNotification(notification:Notification): void
+
+}
+
+class NotificationFactory {
+
+- gatewayMap: Map<NotificationType,NotificationGateway>
+
++ createGateway(type:NotificationType): NotificationGateway
+}
+
+class NotificationService {
+
+- executor: ExecutorService
++ sendNotification((notification:Notification):void
++ shutdown(): void
+
+}
+
+Notification *--> Recipient
+Notification --> Builder
+Notification *--NotificationType
+
+
+NotificationFactory --> NotificationGateway
+RetryAbleGatewayDecorator --> NotificationGateway
+
+NotificationService --> NotificationGateway
+
+
+
+
+
+@enduml
